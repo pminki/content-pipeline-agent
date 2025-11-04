@@ -21,6 +21,7 @@ class ViralityCrew:
       of engagement, shareability, and what makes content spread. You know the specific mechanics that 
       drive virality on each platform - from hook writing to emotional triggers.""",
       verbose=True,
+      max_iter=5,
     )
 
   @task

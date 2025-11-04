@@ -20,7 +20,9 @@ class SeoCrew:
       You analyze blog posts for keyword usage, meta descriptions, content structure, readability, 
       and search intent alignment to help content rank better in search engines.""",
       verbose=True,
+      max_iter=5,
     )
+
 
   @task
   def seo_audit(self):
@@ -49,6 +51,7 @@ class SeoCrew:
       agent=self.seo_expert(),
       output_pydantic=Score,
     )
+
 
   @crew
   def crew(self):
