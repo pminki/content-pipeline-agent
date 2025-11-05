@@ -130,7 +130,11 @@ class ContentPipelineFlow(Flow[ContentPipelineState]):
           """
       )
 
-    self.state.blog_post = BlogPost.model_validate_json(result)
+    # 기존
+    # self.state.blog_post = BlogPost.model_validate_json(result)
+
+    # 수정
+    self.state.blog_post = result if isinstance(result, BlogPost) else BlogPost.model_validate_json(result)
 
 
   @listen(or_("make_tweet", "remake_tweet"))
@@ -172,7 +176,11 @@ class ContentPipelineFlow(Flow[ContentPipelineState]):
         """
       )
 
-    self.state.tweet = Tweet.model_validate_json(result)
+    # 기존
+    # self.state.tweet = Tweet.model_validate_json(result)
+
+    # 수정
+    self.state.tweet = result if isinstance(result, Tweet) else Tweet.model_validate_json(result)
 
 
   @listen(or_("make_linkedin_post", "remake_linkedin_post"))
@@ -214,7 +222,11 @@ class ContentPipelineFlow(Flow[ContentPipelineState]):
         """
       )
 
-    self.state.linkedin_post = LinkedInPost.model_validate_json(result)
+    # 기존
+    # self.state.linkedin_post = LinkedInPost.model_validate_json(result)
+
+    # 수정
+    self.state.linkedin_post = result if isinstance(result, LinkedInPost) else LinkedInPost.model_validate_json(result)
 
   @listen(handle_make_blog)
   def check_seo(self):
@@ -242,7 +254,7 @@ class ContentPipelineFlow(Flow[ContentPipelineState]):
           "content_type": self.state.content_type,
           "content": (
             self.state.tweet.model_dump_json()
-            if self.state.contenty_type == "tweet"
+            if self.state.content_type == "tweet"
             else self.state.linkedin_post.model_dump_json()
           ),
         }
@@ -276,7 +288,7 @@ class ContentPipelineFlow(Flow[ContentPipelineState]):
     if self.state.content_type == "blog":
       print(f"📝 Blog Post: {self.state.blog_post.title}")
       print(f"🔍 SEO Score: {self.state.score.score}/100")
-    elif self.state.contetn_type == "tweet":
+    elif self.state.content_type == "tweet":
       print(f"🐦 Tweet: {self.state.tweet}")
       print(f"🐦 Tweet: {self.state.tweet}")
     elif self.state.content_type == "linkedin":
